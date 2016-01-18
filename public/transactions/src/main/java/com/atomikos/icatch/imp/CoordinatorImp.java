@@ -894,8 +894,12 @@ public class CoordinatorImp implements CompositeCoordinator, Participant,
     			} else {
     				int prepareResult = prepare ();
     				// make sure to only do commit if NOT read only
-    				if ( prepareResult != Participant.READ_ONLY )
+    				if ( prepareResult != Participant.READ_ONLY ) {
     					commit ( false );
+    				} else {
+    					this.notifySynchronizationAfterCompletion(TxState.TERMINATED);
+    				}
+    				
     			}
     		} else {
     			rollback ();
